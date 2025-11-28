@@ -28,9 +28,15 @@
 					</div>
 					<!-- The slideshow/carousel -->
 					<div class="carousel-inner" style="max-width: 240px;" style="max-height: 180px;">
-						<php?
-						
-						?>
+						<div class="carousel-item active">
+						<img src="covers/1984.jpg" alt="1984" class="d-block w-100">
+						</div>
+						<div class="carousel-item">
+						<img src="covers/Emma.jpg" alt="Emma" class="d-block w-100">
+						</div>
+						<div class="carousel-item">
+						<img src="covers/hamlet.jpg" alt="hamlet" class="d-block w-100">
+						</div>
 							<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon"></span>
 							</button>
