@@ -10,9 +10,9 @@
 <body>
 
 <div class="container mt-3">
-  <h2>Se connecter en tant qu'admin</h2>
+  <h2>Se connecter</h2>
   <?php
-  if (!isset($_POST['btnSeConnecter(admin)'])) { 
+  if (!isset($_POST['btnSeConnecter'])) { 
     echo '
   <form action="/action_page.php">
     <div class="mb-3 mt-3">
@@ -20,8 +20,8 @@
       <input type="text" class="form-control" id="identifiant" placeholder="Entrer votre identifiant" name="identifiant">
     </div>
     <div class="mb-3">
-      <label for="mdp">Mot de passe:</label>
-      <input type="password" class="form-control" id="mdp" placeholder="Entrer votre Mot de passe" name="mdp">
+      <label for="motdepasse">Mot de passe:</label>
+      <input type="password" class="form-control" id="mdp" placeholder="Entrer votre Mot de passe" name="motdepasse">
     </div>
     <button type="submit" class="btn btn-primary">connexion</button>
   </form>';
@@ -31,10 +31,10 @@
 
     require_once 'connexion.php';
     $identifiant = $_POST['identifiant'];
-    $mdp = $_POST['mdp'];
-    $stmt = $connexion->prepare("SELECT * FROM agent where identifiant=:identifiant AND mdp=:mdp");
+    $motdepasse = $_POST['motdepasse'];
+    $stmt = $connexion->prepare("SELECT * FROM utilisateur where identifiant=:mel AND motdepasse=:motdepasse");
     $stmt->bindValue(":identifiant", $identifiant); 
-    $stmt->bindValue(":mdp", $mdp); 
+    $stmt->bindValue(":motdepasse", $motdepasse); 
     $stmt->setFetchMode(PDO::FETCH_OBJ);
 
     $stmt->execute();

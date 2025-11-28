@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des livres</title>
-</head>
-<body>
-    
-</body>
-</html>
+<?php
+        require_once('connexion.php');
+        $stmt = $connexion->prepare("SELECT titre, anneeparution FROM livre WHERE autheur = '';");
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $stmt->execute();
+        while($enregistrement = $stmt->fetch())
+        {
+        echo '<h3>', $enregistrement->titre, ' ', $enregistrement->anneeparution,' ','</h3>';
+        }
+    ?>
