@@ -19,7 +19,7 @@
 		<div class="row">
 		   <div class="col-sm-9">
 					Dernières acquisitions
-                    <div id="demo" class="carousel slide" data-bs-ride="carousel">		
+                    <div id="demo" class="carousel slide d-block w-25"  data-bs-ride="carousel" >		
 					<!-- Indicators/dots -->
 					<div class="carousel-indicators">
 						<button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
@@ -27,16 +27,19 @@
 						<button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
 					</div>
 					<!-- The slideshow/carousel -->
-					<div class="carousel-inner" style="max-width: 240px;" style="max-height: 180px;">
-						<div class="carousel-item active">
-						<img src="covers/1984.jpg" alt="1984" class="d-block w-100">
-						</div>
-						<div class="carousel-item">
-						<img src="covers/Emma.jpg" alt="Emma" class="d-block w-100">
-						</div>
-						<div class="carousel-item">
-						<img src="covers/hamlet.jpg" alt="hamlet" class="d-block w-100">
-						</div>
+					
+						<?php
+								require_once('connexion.php');
+								$stmt = $connexion->prepare("SELECT * FROM livre ORDER BY dateajout DESC LIMIT 3");
+								$stmt->setFetchMode(PDO::FETCH_OBJ);
+								$stmt->execute();
+								echo "<div class='carousel-inner'>";
+								while($enregistrement = $stmt->fetch()) {
+									echo "<div class='carousel-item active'>";
+									echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre'>";
+									echo"</div>";
+								}
+						?>
 							<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon"></span>
 							</button>

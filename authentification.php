@@ -30,10 +30,10 @@
 {
 
     require_once 'connexion.php';
-    $identifiant = $_POST['identifiant'];
+    $mel = $_POST['mel'];
     $motdepasse = $_POST['motdepasse'];
     $stmt = $connexion->prepare("SELECT * FROM utilisateur where identifiant=:mel AND motdepasse=:motdepasse");
-    $stmt->bindValue(":identifiant", $identifiant); 
+    $stmt->bindValue(":mel", $mel); 
     $stmt->bindValue(":motdepasse", $motdepasse); 
     $stmt->setFetchMode(PDO::FETCH_OBJ);
 
