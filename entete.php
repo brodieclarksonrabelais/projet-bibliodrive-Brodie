@@ -23,7 +23,6 @@
                         <form class="d-flex">
                             <input class="form-control me-2" type="text" placeholder="Recherche dans le catalogue (saisie du nom de l'auteur)" name="recherche">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="lister_livre.php">Rechercher</a></button>
-                            <php? $recherche = $_GET['recherche'] ; ?>
                         </form>
                         <button class="btn btn-primary" type="button"><a href="panier.php">Panier</a></button>
 
