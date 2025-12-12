@@ -1,12 +1,12 @@
 <?php
+    include 'entete.php';
     require_once('connexion.php');
-    $recherche = $_GET['recherche'] ;
-    $stmt = $connexion->prepare("SELECT titre, anneeparution FROM livre INNER JOIN auteur ON (livre.noauteur = auteur.noauteur) WHERE  :nomAuteur = $recherche ;");
-    $stmt->bindValue(":nomAuteur", $recherche);
+    $stmt = $connexion->prepare("SELECT * FROM livre INNER JOIN auteur ON (livre.noauteur = auteur.noauteur) WHERE auteur.nom = :navbar");
+    $stmt->bindValue(":navbar", $_GET['navbar']);
     $stmt->setFetchMode(PDO::FETCH_OBJ);
     $stmt->execute();
     while($enregistrement = $stmt->fetch())
     {
-    echo '<h3>' ,'<a href=description.php?>', $enregistrement->titre, ' ', $enregistrement->anneeparution,' ','</h3>';
+    echo '<a href="description.php?nolivre='. $enregistrement->nolivre,'"> ', $enregistrement->titre, ' ', $enregistrement->anneeparution,'</a><br/>';
     }
 ?>
