@@ -7,6 +7,6 @@
     $stmt->execute();
     while($enregistrement = $stmt->fetch())
     {
-    echo '<h3>', $enregistrement->titre, ' ', $enregistrement->anneeparution,' ','</h3>';
+    echo '<h3>' ,'<a href=description.php?>', $enregistrement->titre, ' ', $enregistrement->anneeparution,' ','</h3>';
     }
 ?>
