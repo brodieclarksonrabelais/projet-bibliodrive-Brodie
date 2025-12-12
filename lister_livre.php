@@ -26,7 +26,7 @@
                     $stmt->execute();
                     while($enregistrement = $stmt->fetch())
                     {
-                    echo '<a href="description.php?nolivre='. $enregistrement->nolivre,'"> ', $enregistrement->titre, ' ', $enregistrement->anneeparution,'</a><br/>';
+                    echo '<a href="description.php?nolivre='. $enregistrement->nolivre,'"> ', $enregistrement->titre, ' ','(', $enregistrement->anneeparution,')','</a><br/>';
                     }
             ?>
             </div>
