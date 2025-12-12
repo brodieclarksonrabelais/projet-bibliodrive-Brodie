@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-sm-9">
         <!--barre de recherche (include)-->
-        
             <nav  class="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div class="container-fluid">
                     <img src="livre.jpg" alt="logo" width="100px" height="100px">
@@ -22,6 +21,6 @@
     </div>
     <div class="col-sm-3">
             <!--image Moulinsart-->
-            <img src="moulinsart.jpg" alt="moulinsart" width="400px" height="300px">
+            <img src="moulinsart1.jpg" alt="moulinsart" width="450px" height="280px">
     </div>
 </div>

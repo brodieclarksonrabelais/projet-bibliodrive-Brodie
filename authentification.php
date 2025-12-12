@@ -19,8 +19,8 @@
 {
 
     require_once 'connexion.php';
-    $mel = $_POST['mel'];
-    $motdepasse = $_POST['motdepasse'];
+    $mel = $_SESSION['mel'];
+    $motdepasse = $_SESSION['motdepasse'];
     $stmt = $connexion->prepare("SELECT * FROM utilisateur where identifiant=:mel AND motdepasse=:motdepasse");
     $stmt->bindValue(":mel", $mel); 
     $stmt->bindValue(":motdepasse", $motdepasse); 
