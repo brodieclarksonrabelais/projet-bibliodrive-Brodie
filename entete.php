@@ -21,7 +21,7 @@
                         </button>
                         <div class="collapse navbar-collapse" id="mynavbar">
                         <form class="d-flex">
-                            <input class="form-control me-2" type="text" placeholder="Recherche dans le catalogue (saisie du nom de l'auteur)" name="recherche">
+                            <input class="form-control me-2" type="text" placeholder="Recherche dans le catalogue (saisie du nom de l'auteur)" name="navbar">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="lister_livre.php">Rechercher</a></button>
                         </form>
                         <button class="btn btn-primary" type="button"><a href="panier.php">Panier</a></button>
