@@ -1,11 +1,17 @@
 <div class="container mt-3">
-  <h2>Se connecter</h2>
-  <?php
-  if (!isset($_SESSION["mel"])) { //verification si la variable est définie
+
+<?php
+
+/* si la session est occuper, alors tu affiches les info, sinon, si le bouton connecter n'est pas cliqué tu affiches les cases pour remplir ta session, 
+sinon tu fais ta requete, tu recup les infos (si le profil est admin redirection sur menu admin, sinon redirection sur ce meme programme (header location : login.php))
+*/
+
+  if (!isset($_SESSION["mel"])) { 
     if (!isset($_POST['btnconnexion'])) { 
       echo '
-    <form method="post">
+    <form action="" method="post">
       <div class="mb-3 mt-3">
+        <h2>Se connecter</h2>
         <label for="identifiant">Identifiant:</label>
         <input type="text" class="form-control" id="identifiant" placeholder="Entrer votre identifiant" name="mel">
       </div>
@@ -38,48 +44,37 @@
             $_SESSION["profil"] = $enregistrement->profil;
 
 
-            if ($_SESSION["profil"] = "admin") {
+            if ($_SESSION["profil"] == "admin") {
                 header("Location: accueil_admin.php"); 
             } else {
-                header("Location: index.php"); 
+              header("Location: login.php"); 
             }
             exit();
         } else { 
             echo "Echec de la connexion.";
-            
             exit();
       }      
     }
   } else {
-    ?>
-    <h3 class="text-center couleur1"><?php echo $_SESSION["prenom"] . ' ' . $_SESSION["nom"]; ?></h3>
-    <h3 class="text-center couleur1"><?php echo $_SESSION["mel"]; ?></h3>
-    <br>
-    <h3 class="text-center couleur2"><?php echo $_SESSION["adresse"]; ?></h3>
-    <h3 class="text-center couleur2"><?php echo $_SESSION["codepostal"] . ', ' . $_SESSION["ville"]; ?></h3>
     
-    <?php if ($_SESSION["profil"] === "client"): ?>
-        <br><h4 class="text-center couleur3">Bienvenue client </h4>
-    <?php endif; ?>
+      echo $_SESSION["prenom"] . ' ' . $_SESSION["nom"]. '<br/>';
+      echo $_SESSION["mel"] .'<br/>'; 
+      echo $_SESSION["adresse"]. ' ' . $_SESSION["codepostal"] .'<br/>'; 
     
-    <?php if ($_SESSION["profil"] === "admin"): ?>
-        <br><h4 class="text-center couleur3">Bienvenue administrateur </h4>
-    <?php endif; ?>
-    
-    <?php if (!isset($_POST['deco'])) { ?>
-    <form method="post">
+      if (!isset($_POST['deco'])) { 
+        echo '<form method="post">
         <div class="input-group-btn text-center">
             <button class="btn btn-danger" name="deco" type="submit">Déconnexion</button>
         </div>
-    </form>
-    <?php } else {
+    </form>';
+       } else {
         session_unset();         
         session_destroy();
-        header("Location: index.php"); // en client et admin re dirige a l'accueil client apres la deconnexion
+        header("Location: login.php");
         exit();
     }
-}
+  }
 
-ob_end_flush(); // mes fin a la fonction active la mise en mémoire tampon de la sortie jusqu'a la deconnexion du client
+ob_end_flush();
 ?>
 </div>
