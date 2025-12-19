@@ -15,7 +15,7 @@
 	</head>
 	<body>
 	<div class="container-fluid">
-		<?php include 'entete.php';?>
+		<?php include 'entete_admin.php';?>
 		<div class="row">
 		   <div class="col-sm-9">
 					<h2>▼Dernières acquisitions▼</h2>
