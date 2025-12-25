@@ -18,7 +18,7 @@
 		<?php include 'entete.php';?>
 		<div class="row">
 		   <div class="col-sm-9">
-					Dernières acquisitions
+					<h2>▼Dernières acquisitions▼</h2>
                     <div id="demo" class="carousel slide d-block w-25"  data-bs-ride="carousel" >		
 					<!-- Indicators/dots -->
 					<div class="carousel-indicators">
@@ -34,8 +34,13 @@
 								$stmt->setFetchMode(PDO::FETCH_OBJ);
 								$stmt->execute();
 								echo "<div class='carousel-inner'>";
-								while($enregistrement = $stmt->fetch()) {
+								if ($enregistrement = $stmt->fetch()) {
 									echo "<div class='carousel-item active'>";
+									echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre'>";
+									echo"</div>";
+								}
+								while($enregistrement = $stmt->fetch()) {
+									echo "<div class='carousel-item'>";
 									echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre'>";
 									echo"</div>";
 								}
@@ -57,6 +62,4 @@
 		</div>
 	</div>
 	</body>
-</html>
-</body>
 </html>
