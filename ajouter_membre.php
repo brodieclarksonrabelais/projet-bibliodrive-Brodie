@@ -1,4 +1,6 @@
 <?php
+/*if(password_hash($mdp,PASSWORD_DEFAULT))
+commencer la verif de mdp le temps de créer les premiers utilisateurs */
         if (!isset($_POST['submit']))
 {
 ?>

@@ -7,7 +7,7 @@
             <nav  class="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div class="container-fluid">
                     <img src="livre.jpg" alt="logo" width="100px" height="100px">
-                    <a class="navbar-brand" href="javascript:void(0)"> <a href="index.php">Biblio-Drive</a></a>
+                    <a class="navbar-brand" href="javascript:void(0)"> <a href="accueil_admin.php">Biblio-Drive</a></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                     <span class="navbar-toggler-icon"></span>
                     </button>
@@ -17,7 +17,8 @@
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                     </form>
                     <button class="btn btn-primary" type="button"><a href="panier.php">Panier</a></button>
-
+                    <button class="btn btn-primary" type="button"><a href="ajouter_livre.php">Ajouter un livre</a></button>
+                    <button class="btn btn-primary" type="button"><a href="ajouter_membre.php">Ajouter un membre</a></button>
                     </div>
                 </div>
                 </nav>
