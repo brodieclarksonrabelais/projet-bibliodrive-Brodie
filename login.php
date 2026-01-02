@@ -70,7 +70,7 @@ sinon tu fais ta requete, tu recup les infos (si le profil est admin redirection
        } else {
         session_unset();         
         session_destroy();
-        header("Location: login.php");
+        header("Location: index.php");
         exit();
     }
   }

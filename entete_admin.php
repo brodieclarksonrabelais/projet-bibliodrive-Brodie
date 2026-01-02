@@ -1,9 +1,9 @@
+<?php
+    session_start();
+?>
 <div class="row">
     <div class="col-sm-9">
         <!--barre de recherche (include)-->
-        <php?
-        session_start();
-        ?>
             <nav  class="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div class="container-fluid">
                     <img src="livre.jpg" alt="logo" width="100px" height="100px">
