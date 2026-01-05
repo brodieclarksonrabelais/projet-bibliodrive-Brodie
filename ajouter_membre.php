@@ -9,12 +9,12 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
         ?>
         <form action="ajouter_membre.php" method="post">
             Mel : <input type="text" name="mel" required><br>
-            Mot de passe : <input type="text" name="mdp" required><br>
+            Mot de passe : <input type="text" name="motdepasse" required><br>
             Nom: <input type="text" name="nom" required><br>
             Prénom: <input type="text" name="prenom" required><br>
             Adresse: <input type="text" name="adresse" required><br>
-            Code postal : <input type="text" name="code_postal" required><br>
-            <input type="submit" value="Ajouter utilisateur" name="Créer">
+            Code postal : <input type="text" name="codepostal" required><br>
+            <input type="submit" value="Ajouter utilisateur" name="submit">
         </form>
         <?php
         }
@@ -22,19 +22,21 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
         {
             require_once('connexion.php');
             $mel = $_POST['mel'];
-            $mdp = $_POST['mdp'];
+            $motdepasse = $_POST['motdepasse'];
             $nom = $_POST['nom'];
             $prenom = $_POST['prenom'];
             $adresse = $_POST['adresse'];
-            $code_postal = $_POST['code_postal'];
+            $codepostal = $_POST['codepostal'];
+            $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
 
-            $sql = $connexion->prepare("INSERT INTO utilisateur (mel, mdp, nom, prenom, adresse, code_postal) VALUES (:mel, :mdp, :nom, :prenom, :adresse, :code_postal)");
+            $stmt = $connexion->prepare("INSERT INTO utilisateur (mel, motdepasse, nom, prenom, adresse, codepostal) VALUES (:mel, :motdepasse, :nom, :prenom, :adresse, :codepostal)");
             $stmt->bindParam(':mel', $mel, PDO::PARAM_STR);
-            $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+            $stmt->bindParam(':motdepasse', $motdepasse, PDO::PARAM_STR);
             $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
             $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
             $stmt->bindParam(':adresse', $adresse, PDO::PARAM_STR);
-            $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_INT);
+            $stmt->bindParam(':codepostal', $codepostal, PDO::PARAM_INT);
+
 
             if ($stmt->execute()) {
                 echo "<h3>Utilisateur ajouté avec succès!</h3>";

@@ -47,11 +47,12 @@ sinon tu fais ta requete, tu recup les infos (si le profil est admin redirection
             if ($_SESSION["profil"] == "admin") {
                 header("Location: accueil_admin.php"); 
             } else {
-              header("Location: login.php"); 
+              header("Location: index.php"); 
             }
             exit();
         } else { 
-            echo "Echec de la connexion.";
+            echo 'Echec de la connexion<br/>';
+            echo'<a href=index.php>recharger le forumlaire</a>';
             exit();
       }      
     }
