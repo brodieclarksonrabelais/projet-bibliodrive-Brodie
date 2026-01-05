@@ -1,7 +1,6 @@
 <?php
 session_start();
-/*if(password_hash($mdp,PASSWORD_DEFAULT))
-commencer la verif de mdp le temps de créer les premiers utilisateurs */
+
 require_once 'connexion.php';
 if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
     include 'entete_admin.php';
