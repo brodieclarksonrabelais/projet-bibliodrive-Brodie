@@ -1,5 +1,8 @@
 <?php
-if ($_SESSION["profil"] == "admin") {
+session_start();
+require_once 'connexion.php';
+if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
+    include 'entete_admin.php';
     if (!isset($_POST['submit']))
         {
             echo '
@@ -36,6 +39,7 @@ if ($_SESSION["profil"] == "admin") {
             }
         }
     } else {
+        include 'entete.php';
         echo "<h3>Erreur : vous n'avez pas les autorisation requises pour accéder à cette page.</h3>";
     }
 ?>

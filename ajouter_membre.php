@@ -1,7 +1,9 @@
 <?php
 /*if(password_hash($mdp,PASSWORD_DEFAULT))
 commencer la verif de mdp le temps de créer les premiers utilisateurs */
-if ($_SESSION["profil"] == "admin") {
+include 'entete_admin.php';
+require_once 'connexion.php';
+if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
     if (!isset($_POST['submit'])) {
         echo '
         <form action="ajouter_membre.php" method="post">
@@ -40,6 +42,7 @@ if ($_SESSION["profil"] == "admin") {
             }
         }
     } else {
+        include 'entete.php';
         echo "<h3>Erreur : vous n'avez pas les autorisation requises pour accéder à cette page.</h3>";
     }    
 ?>
