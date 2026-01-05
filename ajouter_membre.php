@@ -6,7 +6,7 @@ require_once 'connexion.php';
 if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
     include 'entete_admin.php';
     if (!isset($_POST['submit'])) {
-        echo '
+        ?>
         <form action="ajouter_membre.php" method="post">
             Mel : <input type="text" name="mel" required><br>
             Mot de passe : <input type="text" name="mdp" required><br>
@@ -15,8 +15,8 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
             Adresse: <input type="text" name="adresse" required><br>
             Code postal : <input type="text" name="code_postal" required><br>
             <input type="submit" value="Ajouter utilisateur" name="Créer">
-        </form> ';
-
+        </form>
+        <?php
         }
         else 
         {
@@ -28,13 +28,13 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
             $adresse = $_POST['adresse'];
             $code_postal = $_POST['code_postal'];
 
-            $stmt = $connexion->prepare("INSERT INTO utilisateur (mel, mdp, nom, prenom, adresse, code_postal) VALUES (:mel, :mdp, :nom, :prenom, :adresse, :code_postal)");
+            $sql = $connexion->prepare("INSERT INTO utilisateur (mel, mdp, nom, prenom, adresse, code_postal) VALUES (:mel, :mdp, :nom, :prenom, :adresse, :code_postal)");
             $stmt->bindParam(':mel', $mel, PDO::PARAM_STR);
             $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
             $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
             $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
             $stmt->bindParam(':adresse', $adresse, PDO::PARAM_STR);
-            $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+            $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 echo "<h3>Utilisateur ajouté avec succès!</h3>";
