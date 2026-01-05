@@ -3,39 +3,51 @@ session_start();
 require_once 'connexion.php';
 if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
     include 'entete_admin.php';
-    if (!isset($_POST['submit']))
-        {
-            echo '
+    if (!isset($_POST['submit'])){
+        ?>
             <form action="ajouter_livre.php" method="post">
+                <select name="activite" required>
+                <?php
+                $stmt = $connexion->prepare("SELECT nom, noauteur FROM auteur;");
+                $stmt->setFetchMode(PDO::FETCH_OBJ);
+                // Les résultats retournés par la requête seront traités en 'mode' objet
+                $stmt->execute();
+                // Parcours des enregistrements retournés par la requête : premier, deuxième…
+                while($enregistrement = $stmt->fetch())
+                {
+                    echo '<option value="', $enregistrement->noauteur,'">', $enregistrement->nom,'</option>';
+                }
+                ?>
+                </select>
                 Titre : <input type="text" name="titre" required><br>
-                ISBN13 : <input type="text" name="ISBN13" required><br>
+                ISBN13 : <input type="text" name="isbn13" required><br>
                 Année de parution : <input type="text" name="anneeparution" required><br>
-                Résumé : <input type="text" name="summary" required><br>
-                Image : <input type="text" name="cover" required><br>
-                <input type="submit" value="Ajouter le livre" name="Ajouter">
-            </form>';
-
+                Résumé : <input type="text" name="detail" required><br>
+                Image : <input type="text" name="photo" required><br>
+                <input type="submit" value="Ajouter le livre" name="submit">
+            </form>
+        <?php
         }
         else 
         {
             require_once('connexion.php');
             $titre = $_POST['titre'];
-            $ISBN13 = $_POST['ISBN13'];
+            $isbn13 = $_POST['isbn13'];
             $anneeparution = $_POST['anneeparution'];
-            $resume = $_POST['summary'];
-            $cover = $_POST['cover'];
+            $detail = $_POST['detail'];
+            $photo = $_POST['photo'];
 
-            $stmt = $connexion->prepare("INSERT INTO utilisateur (titre, ISBN13, anneeparution, summary, cover) VALUES (:titre, :ISBN13, :anneeparution, :summary, :cover)");
+            $stmt = $connexion->prepare("INSERT INTO livre (titre, isbn13, anneeparution, detail, photo) VALUES (:titre, :isbn13, :anneeparution, :detail, :photo)");
             $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
-            $stmt->bindParam(':ISBN13', $ISBN13, PDO::PARAM_STR);
+            $stmt->bindParam(':isbn13', $isbn13, PDO::PARAM_STR);
             $stmt->bindParam(':anneeparution', $anneeparution, PDO::PARAM_STR);
-            $stmt->bindParam(':summary', $summary, PDO::PARAM_STR);
-            $stmt->bindParam(':cover', $cover, PDO::PARAM_STR);
+            $stmt->bindParam(':detail', $detail, PDO::PARAM_STR);
+            $stmt->bindParam(':photo', $photo, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                echo "<h3>Utilisateur ajouté avec succès!</h3>";
+                echo "<h3>Livre ajouté avec succès!</h3>";
             } else {
-                echo "<h3>Erreur lors de l'ajout de l'agent.</h3>";
+                echo "<h3>Erreur lors de l'ajout du livre.</h3>";
             }
         }
     } else {

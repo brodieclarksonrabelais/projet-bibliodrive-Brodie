@@ -32,7 +32,7 @@
             </div>
 			<div class="col-sm-3">
 					<!--formulaire de connexion / profil connecté (include)-->
-					<?php include 'authentification.php';?>
+					<?php include 'login.php';?>
 			</div>
 		</div>
 	</div>
