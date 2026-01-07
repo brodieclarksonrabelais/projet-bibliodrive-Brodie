@@ -6,16 +6,13 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
     if (!isset($_POST['submit'])){
         ?>
             <form action="ajouter_livre.php" method="post">
-                <select name="activite" required>
+                <select name="auteur" required>
                 <?php
-                $stmt = $connexion->prepare("SELECT nom, noauteur FROM auteur;");
-                $stmt->setFetchMode(PDO::FETCH_OBJ);
-                // Les résultats retournés par la requête seront traités en 'mode' objet
-                $stmt->execute();
-                // Parcours des enregistrements retournés par la requête : premier, deuxième…
-                while($enregistrement = $stmt->fetch())
-                {
-                    echo '<option value="', $enregistrement->noauteur,'">', $enregistrement->nom,'</option>';
+                $stmt = $connexion->prepare("SELECT noauteur, nom, prenom FROM auteur"); // Prépare la requête
+                $stmt->execute(); // va executer le truc au dessus
+                $auteurs = $stmt->fetchAll(PDO::FETCH_OBJ); // Récupère tt les résult
+                foreach ($auteurs as $auteur) { // pour que mon code regarde tt les auteurs dans la base de donnees
+                    echo "<option value='{$auteur->noauteur}'>{$auteur->prenom} {$auteur->nom}</option>"; // je vais afficher le nom le prenom et le num de l'auteur
                 }
                 ?>
                 </select>
@@ -31,18 +28,22 @@ if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
         else 
         {
             require_once('connexion.php');
+            $noauteur = $_POST['auteur'];
             $titre = $_POST['titre'];
             $isbn13 = $_POST['isbn13'];
             $anneeparution = $_POST['anneeparution'];
             $detail = $_POST['detail'];
             $photo = $_POST['photo'];
+            $dateajout = date('Y-m-d H:i:s');
 
-            $stmt = $connexion->prepare("INSERT INTO livre (titre, isbn13, anneeparution, detail, photo) VALUES (:titre, :isbn13, :anneeparution, :detail, :photo)");
+            $stmt = $connexion->prepare("INSERT INTO livre (noauteur, titre, isbn13, anneeparution, detail, photo, dateajout) VALUES (:noauteur, :titre, :isbn13, :anneeparution, :detail, :photo, :dateajout)");
+            $stmt->bindParam(':noauteur', $noauteur, PDO::PARAM_INT);
             $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
             $stmt->bindParam(':isbn13', $isbn13, PDO::PARAM_STR);
             $stmt->bindParam(':anneeparution', $anneeparution, PDO::PARAM_STR);
             $stmt->bindParam(':detail', $detail, PDO::PARAM_STR);
             $stmt->bindParam(':photo', $photo, PDO::PARAM_STR);
+            $stmt->bindParam(':dateajout', $dateajout);
 
             if ($stmt->execute()) {
                 echo "<h3>Livre ajouté avec succès!</h3>";
