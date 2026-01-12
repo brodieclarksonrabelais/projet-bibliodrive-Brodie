@@ -15,7 +15,12 @@
 	</head>
 	<body>
 	<div class="container-fluid">
-		<?php include 'entete.php';?>
+        <?php
+		session_start();
+        require_once 'connexion.php';
+        if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
+            include 'entete_admin.php';
+        ?>
 		<div class="row">
 		   <div class="col-sm-9">
             <?php
@@ -30,6 +35,12 @@
                     }
             ?>
             </div>
+        <?php
+            } else {
+                    include 'entete.php';
+                    echo "<h3>Erreur : vous n'avez pas les autorisation requises pour accéder à cette page.</h3>";
+                }
+        ?>
 			<div class="col-sm-3">
 					<!--formulaire de connexion / profil connecté (include)-->
 					<?php include 'login.php';?>

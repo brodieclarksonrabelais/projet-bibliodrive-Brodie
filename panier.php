@@ -19,6 +19,10 @@
 		<div class="row" id="top">
 			<div class="col-sm-9">
 				<?php
+                session_start();
+                require_once 'connexion.php';
+                if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
+                    include 'entete_admin.php';
                     require_once('connexion.php');
 
                     if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
@@ -81,11 +85,15 @@
                         header('Location: panier.php');
                         exit();
                     }
+               } else {
+                    include 'entete.php';
+                    echo "<h3>Erreur : vous n'avez pas les autorisation requises pour accéder à cette page.</h3>";
+                }
                 ?>
             </div>
 			<div class="col-sm-3">
 				<?php
-					require_once('formulaire.php');
+					require_once('login.php');
 				?>
 			</div>
 		</div>

@@ -1,4 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 <?php
+session_start();
+require_once 'connexion.php';
+    if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
+        include 'entete_admin.php';
     include 'entete.php';
     require_once('connexion.php');
 
@@ -61,6 +73,10 @@
         '<div class="col-sm-6">',
             '<img src="images-couvertures/covers/' . $enregistrement->photo . '" alt="' . $enregistrement->photo . '" height="' . 400 . '">',
         '</div>';
+} else {
+        include 'entete.php';
+        echo "<h3>Erreur : vous n'avez pas les autorisation requises pour accéder à cette page.</h3>";
+    }
 ?>
         </div>
 			<div class="col-sm-3">
@@ -70,4 +86,6 @@
 		</div>
 	</div>
 	</body>
+</html>
+</body>
 </html>
