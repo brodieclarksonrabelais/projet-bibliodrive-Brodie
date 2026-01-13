@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <?php
             session_start();
-            require_once 'connexion.php';
+            
             if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
                 include 'entete_admin.php';
             } else {
@@ -41,13 +41,13 @@
                     $panier = array();
 
                     if (isset($_SESSION['panier'])) {
-                        $panier = $_SESSION['panier'];
+                        $_SESSION['panier'] = $panier;
                     }
 
-                    if (!empty($panier)) {
+                    if (!empty($_SESSION['panier'][0])) {
                         echo '<h3>Votre panier :</h3>';
                         foreach ($panier as $book_id) {
-                            $stmt = $connexion->prepare("SELECT titre, photo FROM livre WHERE nolivre = ?");
+                            $stmt = $connexion->prepare("SELECT titre, photo, nolivre FROM livre WHERE nolivre = ?");
                             $stmt->execute([$book_id]);
                             $book = $stmt->fetch(PDO::FETCH_OBJ);
                             echo '<div class="row mb-3">',
@@ -93,7 +93,7 @@
 					include('login.php');
 				?>
 			</div>
-		</div>
+		
 	</div>
 </body>
 </html>
