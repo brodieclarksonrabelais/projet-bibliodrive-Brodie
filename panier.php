@@ -12,6 +12,7 @@
     <title>Bibliothèque</title>
 </head>
 <body>
+<!-- affichage du contenu du panier + valider panier + dans description.php reserver le livre -->
     <div class="container-fluid">
         <?php
             session_start();
