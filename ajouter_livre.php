@@ -72,6 +72,6 @@
                     <?php include 'login.php';?>
                 </div>
             </div>
-    </div>    
+    </div>
 </body>
 </html>
