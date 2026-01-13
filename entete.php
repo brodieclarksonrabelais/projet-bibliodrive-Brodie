@@ -16,7 +16,7 @@
                         <input class="form-control me-2" type="text" placeholder="Recherche dans le catalogue (saisie du nom de l'auteur)" name="navbar">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                     </form>
-                    <button class="btn btn-primary" type="button"><a href="panier.php">Panier</a></button>
+                    <button class="btn btn-dark" type="button"><a href="panier.php">Panier</a></button>
 
                     </div>
                 </div>
