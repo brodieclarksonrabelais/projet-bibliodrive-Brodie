@@ -16,7 +16,7 @@
     if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
         include 'entete_admin.php';
         if (!isset($_POST['submit'])){
-            ?>
+    ?>
             <div class="row">
 		        <div class="col-sm-9">
                     <form action="ajouter_livre.php" method="post">
