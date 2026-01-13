@@ -41,9 +41,7 @@
                 echo  '<p>Résumé de : ', $enregistrement->titre,' ','<br/>', $enregistrement->detail,' ','</p>';
                 echo '<p>Date de parution :', $enregistrement->anneeparution,' ','</p>';
                 echo'</div>';
-                }
-
-                if (isset($_SESSION['mel'])){
+                                if (isset($_SESSION['mel'])){
 
                     if ($enregistrement->nolivre == $enregistrement2->nolivre){
                         echo '<h5 style="color:red;"> Livre déjà emprunté </h5>';
@@ -68,6 +66,8 @@
                 }
                 else{
                     echo '<h5 class="text-danger"> Veuillez vous connecter pour ajouter au panier </h5>';
+                }
+
                 }
             ?>
             </div>
