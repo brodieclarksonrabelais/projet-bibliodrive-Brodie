@@ -17,8 +17,8 @@
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                     </form>
                     <button class="btn btn-dark" type="button"><a href="panier.php">Panier</a></button>
-                    <button class="btn btn-primary" type="button"><a href="ajouter_livre.php">Ajouter un livre</a></button>
-                    <button class="btn btn-primary" type="button"><a href="ajouter_membre.php">Ajouter un membre</a></button>
+                    <button class="btn btn-dark" type="button"><a href="ajouter_livre.php">Ajouter un livre</a></button>
+                    <button class="btn btn-dark" type="button"><a href="ajouter_membre.php">Ajouter un membre</a></button>
                     </div>
                 </div>
                 </nav>
