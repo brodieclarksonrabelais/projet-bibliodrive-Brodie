@@ -1,100 +1,106 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="style.css"/>
-    <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
-    <title>Bibliothèque</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
 </head>
 <body>
-<!-- affichage du contenu du panier + valider panier + dans description.php reserver le livre -->
     <div class="container-fluid">
         <?php
-            session_start();
-            
-            if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
+        session_start();
+        require_once('connexion.php');
+        if (isset($_SESSION['profil'])) {
+            if ($_SESSION["profil"] == "admin") {
                 include 'entete_admin.php';
             } else {
                 include 'entete.php';
+            }
         ?>
-		<div class="row" id="top">
-			<div class="col-sm-9">
-				<?php
-                    require_once('connexion.php');
-                    if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
-                        $id = $_GET['id'];
-                        if (isset($_SESSION['panier'])) {
-                            $key = array_search($id, $_SESSION['panier']);
-                            if ($key !== false) {
-                                unset($_SESSION['panier'][$key]);
-                                $_SESSION['panier'] = array_values($_SESSION['panier']);
-                            }
-                        }
-                        header('Location: panier.php');
-                        exit();
-                    }
-
-                    $panier = array();
-
-                    if (isset($_SESSION['panier'])) {
-                        $_SESSION['panier'] = $panier;
-                    }
-
-                    if (!empty($_SESSION['panier'][0])) {
-                        echo '<h3>Votre panier :</h3>';
-                        foreach ($panier as $book_id) {
-                            $stmt = $connexion->prepare("SELECT titre, photo, nolivre FROM livre WHERE nolivre = ?");
-                            $stmt->execute([$book_id]);
-                            $book = $stmt->fetch(PDO::FETCH_OBJ);
-                            echo '<div class="row mb-3">',
-                            '<div class="col-sm-3"><img src="images-couvertures/covers/' . $book->photo . '" height="100" alt="' . $book->titre . '"></div>',
-                            '<div class="col-sm-6"><h5>' . $book->titre . '</h5></div>',
-                            '<div class="col-sm-3">',
-                            '<form method="get" action="panier.php" style="display:inline;">',
-                            '<input type="hidden" name="action" value="remove">',
-                            '<input type="hidden" name="id" value="' . $book_id . '">',
-                            '<button type="submit" class="btn btn-danger">Retirer</button>',
-                            '</form>',
-                            '</div>',
-                            '</div>';
-                        }
-                    } else {
-                        echo '<h3>Votre panier est vide.</h3>';
-                    }
-                    
-                    if (!empty($panier)) {
-                        echo '<form method="post" action="panier.php">';
-                        echo '<button type="submit" name="valider" class="btn btn-success">Valider panier</button>';
-                        echo '</form>';
-                    }
-                    
-                    if (isset($_POST['valider'])) {
-                        if (isset($_SESSION['mail']) && isset($_SESSION['panier']) && !empty($_SESSION['panier'])) {
-                            $mail = $_SESSION['mail'];
-                            $date = date('Y-m-d');
-                            foreach ($_SESSION['panier'] as $book_id) {
-                                $stmt = $connexion->prepare("INSERT INTO emprunter (mel, nolivre, dateemprunt) VALUES (?, ?, ?)");
-                                $stmt->execute([$mail, $book_id, $date]);
-                            }
-                            unset($_SESSION['panier']);
-                        }
-                        header('Location: panier.php');
-                        exit();
-                    }
+        <div class="row">
+            <div class="col-sm-9">
+                <?php
+                if(!isset($_SESSION['panier'])){
+                    // Initialisation du panier
+                    $_SESSION['panier'] = array(); // regroupe les informations
                 }
                 ?>
+                <h1 id='panier'class="couleur3">Votre panier :</h1>  
+                <?php 
+                    
+                    // Affichage du panier 
+                    $nb_livresempruntés = count($_SESSION['panier']); 
+                    $nb_emprunts = (5 - $nb_livresempruntés);
+                    echo '<h5 class="couleur1" id="reste">(Il vous reste ', $nb_emprunts ,' réservations possibles.)</h5>';
+                    
+                    for ($id =0 ;$id < $nb_livresempruntés; $id++){ // initialise et poursuit l'exécution pour compter le nombre de livre 
+                        echo '<form method="POST">'; //transmet les information
+                        echo '<p id="contenupanier">', $_SESSION['panier'][$id];
+                        echo '<input type="submit" id="contenupanier" name="annuler" class="btn btn-danger"  value="suprimer du panier">';
+                        echo '</form></p>';
+                    } 
+                    
+                    if (empty($_SESSION['panier'])){ //verifie si la session est considérée comme vide
+                        
+                        echo '<h5 class="couleur2" id="vide">Votre panier est vide</h5>';
+                    } else { //affichage du panier quand il n'est pas vide
+                        echo '<form method="POST">';
+                        
+                        foreach($_SESSION['panier'] as $nolivre) { // parcour tous les livres dans le tableau panier
+                            echo '<input type="hidden" name="nolivre[]" value="'. $nolivre .'">';
+                        }
+                        echo '<input type="submit" name="valider" class="btn btn-success btn-lg" value="Valider le panier">';
+                        echo '</form>';
+                    }
+            // bouton annuler
+                        if(isset($_POST['annuler'])){  
+                            unset($_SESSION['panier'][array_search($_SESSION['panier'][$id], $_SESSION['panier'])]);
+                            sort($_SESSION['panier']); 
+                            header("refresh: 0");
+                        }
+            // bouton valider
+                    if(isset($_POST['valider'])){
+                    require_once('connexion.php');
+                    $mel = $_SESSION['mel'];
+                    $dateemprunt = date("Y-m-d");
+                
+                    foreach($_SESSION['panier'] as $nolivre) { // parcour tous les livres dans le tableau le panier
+                
+                        echo "Tentative d'ajout du livre: $nolivre<br>";
+                
+                        // Requête pour ajouter les informations du livre dans la base de données SQL
+                        try {
+                            $stmt = $connexion->prepare("INSERT INTO emprunter(mel, nolivre, dateemprunt) VALUES (:mel, :nolivre, :dateemprunt)");
+                            //Associe la meme valeur du nom de la requête SQL qui est utilisé pour la requête
+                            $stmt->bindValue(':mel', $mel, PDO::PARAM_STR); 
+                            $stmt->bindValue(':dateemprunt', $dateemprunt);
+                            $stmt->bindValue(':nolivre', $nolivre, PDO::PARAM_INT);
+                            $stmt->execute();
+                            echo "Le livre $nolivre a été ajouté avec succès.<br>";
+                        
+                            } catch (PDOException $e) { 
+                            echo "Erreur lors de l'ajout du livre $nolivre: " . $e->getMessage() . "<br>";
+                        }
+                    }
+                
+                    // Vider le panier après la validation
+                    $_SESSION['panier'] = array();
+                    header("refresh 0"); 
+                    exit;
+                }
+        }else {
+            include 'entete.php';
+            echo "<h3>Erreur : vous devez être connecté pour accéder au panier</h3>";
+        }    
+        ?> 
             </div>
-			<div class="col-sm-3">
-				<?php
-					include('login.php');
-				?>
-			</div>
-		
-	</div>
+                <div class="col-sm-3">
+                    <!--formulaire de connexion / profil connecté (include)-->
+                    <?php include 'login.php';?>
+                </div>
+        </div>  
+    </div>
 </body>
 </html>

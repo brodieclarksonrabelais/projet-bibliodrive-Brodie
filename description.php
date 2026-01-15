@@ -14,62 +14,54 @@
         require_once('connexion.php');
         if (isset($_SESSION['profil']) && $_SESSION["profil"] == "admin") {
             include 'entete_admin.php';
-            } else {
-                    include 'entete.php';
-                }
+        } else {
+            include 'entete.php';
+        }
         ?>
         <div class="row">
             <div class="col-sm-9">
                 <?php
-                $stmt=$connexion->prepare("SELECT * from emprunter where nolivre");
-                $stmt->setFetchMode(PDO::FETCH_OBJ);
-                $stmt->execute();
-                $enregistrement2 = $stmt->fetch();
 
                 $stmt = $connexion->prepare("SELECT * FROM livre l INNER JOIN auteur a ON (l.noauteur = a.noauteur) WHERE l.nolivre = :nolivre");
-                $stmt->bindValue(":nolivre", $_GET['nolivre']);
+                $nolivre = $_GET["nolivre"];
+                $stmt->bindValue(":nolivre", $nolivre);
                 $stmt->setFetchMode(PDO::FETCH_OBJ);
                 $stmt->execute();
+                
                 while($enregistrement = $stmt->fetch())
-                {
-                echo '<div class="col-md-3".>';
-                echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre' style='width=60%'>";
-                echo'</div>';
-                echo '<div class="col-md-4".>';
-                echo '<p>Auteur :', $enregistrement->prenom, ' ', $enregistrement->nom, ' ','</p>';
-                echo '<p>ISBN13 :', $enregistrement->isbn13,' ','</p>';
-                echo  '<p>Résumé de : ', $enregistrement->titre,' ','<br/>', $enregistrement->detail,' ','</p>';
-                echo '<p>Date de parution :', $enregistrement->anneeparution,' ','</p>';
-                echo'</div>';
-                                if (isset($_SESSION['mel'])){
-
-                    if ($enregistrement->nolivre == $enregistrement2->nolivre){
-                        echo '<h5 style="color:red;"> Livre déjà emprunté </h5>';
-                    } else {
-                        echo '<h5 style="color:green;"> Livre disponible </h5>';
-                    echo
-                    '<form method="get" action="detail_livre.php">',
-                        '<button type="submit" name="ajoutpanier" value="' . $enregistrement->nolivre . '" class="btn btn-outline-info">Ajouter au panier</button>',
-                    '</form>';
-                    }
-                    if (isset($_GET['ajoutpanier'])) {
-                        $book_id = $_GET['ajoutpanier'];
-                        if (!isset($_SESSION['panier'])) {
-                            $_SESSION['panier'] = array();
+                    {
+                    echo '<div class="col-md-3".>';
+                    echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre' style='width=60%'>";
+                    echo'</div>';
+                    echo '<div class="col-md-4".>';
+                    echo '<p>Auteur :', $enregistrement->prenom, ' ', $enregistrement->nom, ' ','</p>';
+                    echo '<p>ISBN13 :', $enregistrement->isbn13,' ','</p>';
+                    echo  '<p>Résumé de : ', $enregistrement->titre,' ','<br/>', $enregistrement->detail,' ','</p>';
+                    echo '<p>Date de parution :', $enregistrement->anneeparution,' ','</p>';
+                    echo'</div>';
+                                    
+                    if (isset($_SESSION["prenom"]))//vérifie la variable 
+                        {
+                        echo '<form method="POST">';
+                        echo '<input type="submit" name="btn-ajoutpanier" class="btn btn-success btn-lg" value="Ajouter au panier"></input>';
+                        echo '</form>';
+                        }else{
+                        echo '<p class="text-primary">Pour pouvoir réserver ce livre vous devez posséder un compte et vous identifier !</p>';
                         }
-                        if (!in_array($book_id, $_SESSION['panier'])) {
-                            $_SESSION['panier'][] = $book_id;
-                        }
-                        header('Location: panier.php');
-                        exit();
-                    }
-                }
-                else{
-                    echo '<h5 class="text-danger"> Veuillez vous connecter pour ajouter au panier </h5>';
-                }
 
-                }
-            ?>
+                        if(!isset($_SESSION['panier'])){//vérifie que la variable existe
+
+                        $_SESSION['panier'] = array(); //stocke plusieurs valeurs dans une seule variable
+                        }
+
+                        // On ajoute les entrées dans le tableau
+                        if(isset($_POST['btn-ajoutpanier'])){//vérifie la variable 
+                            array_push($_SESSION['panier'], $enregistrement->nolivre);//insère plusieurs éléments à la fin d'un tableau.
+                            echo "Livre ajouté à votre panier avec succès !";
+                        }
+
+                    }
+                ?>
             </div>
                 <div class="col-sm-3">
                     <!--formulaire de connexion / profil connecté (include)-->

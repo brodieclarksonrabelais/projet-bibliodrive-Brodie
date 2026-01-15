@@ -47,7 +47,7 @@
               if ($_SESSION["profil"] == "admin") {
                   header("Location: accueil_admin.php"); 
               } else {
-                header("Location: login.php"); 
+                header("Location: index.php"); 
               }
               exit();
           } else { 
