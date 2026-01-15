@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="bibliodrive.css">
     <title>Document</title>
 </head>
 <body>
@@ -31,20 +32,26 @@
                 <?php 
                     
                     // Affichage du panier 
-                    $nb_livresempruntés = count($_SESSION['panier']); 
-                    $nb_emprunts = (5 - $nb_livresempruntés);
+                    $nb_livresempruntes = count($_SESSION['panier']); 
+                    $_SESSION['nb_livresempruntes'] = $nb_livresempruntes;
+                    $nb_emprunts = (5 - $nb_livresempruntes);
                     echo '<h5 class="couleur1" id="reste">(Il vous reste ', $nb_emprunts ,' réservations possibles.)</h5>';
                     
-                    for ($id =0 ;$id < $nb_livresempruntés; $id++){ // initialise et poursuit l'exécution pour compter le nombre de livre 
+                    for ($id =0 ;$id < $nb_livresempruntes; $id++){ // initialise et poursuit l'exécution pour compter le nombre de livre
+                        $stmt = $connexion->prepare("SELECT titre, nom, prenom FROM livre l INNER JOIN auteur a ON (l.noauteur=a.noauteur) WHERE nolivre = :nolivre");
+                        $stmt->bindValue(':nolivre', $_SESSION['panier'][$id], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $livre = $stmt->fetch(PDO::FETCH_OBJ);
+
                         echo '<form method="POST">'; //transmet les information
-                        echo '<p id="contenupanier">', $_SESSION['panier'][$id];
+                        echo '<p id="contenupanier">', $livre->titre . ', ' . $livre->prenom . ' ' . $livre->nom;
                         echo '<input type="submit" id="contenupanier" name="annuler" class="btn btn-danger"  value="suprimer du panier">';
                         echo '</form></p>';
                     } 
                     
                     if (empty($_SESSION['panier'])){ //verifie si la session est considérée comme vide
-                        
                         echo '<h5 class="couleur2" id="vide">Votre panier est vide</h5>';
+
                     } else { //affichage du panier quand il n'est pas vide
                         echo '<form method="POST">';
                         

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="bibliodrive.css">
     <title>Document</title>
 </head>
 <body>
@@ -39,14 +40,23 @@
                     echo  '<p>Résumé de : ', $enregistrement->titre,' ','<br/>', $enregistrement->detail,' ','</p>';
                     echo '<p>Date de parution :', $enregistrement->anneeparution,' ','</p>';
                     echo'</div>';
-                                    
+                    
+                    $nb_livresmax = 5;
+                    $nb_livresempruntes = count($_SESSION['panier']); 
+                    $_SESSION['nb_livresempruntes'] = $nb_livresempruntes;
+
                     if (isset($_SESSION["prenom"]))//vérifie la variable 
                         {
-                        echo '<form method="POST">';
-                        echo '<input type="submit" name="btn-ajoutpanier" class="btn btn-success btn-lg" value="Ajouter au panier"></input>';
-                        echo '</form>';
+                            if ($_SESSION['nb_livresempruntes']) <= $nb_livresmax)
+                                {
+                                    echo '<form method="POST">';
+                                    echo '<input type="submit" name="btn-ajoutpanier" class="btn btn-success btn-lg" value="Ajouter au panier"></input>';
+                                    echo '</form>';
+                                } else {
+                                    echo '<h5>Il y a trop de livre dans le panier (Max 5 livres)</h5>';
+                                }
                         }else{
-                        echo '<p class="text-primary">Pour pouvoir réserver ce livre vous devez posséder un compte et vous identifier !</p>';
+                            echo '<p class="text-primary">Pour pouvoir réserver ce livre vous devez posséder un compte et vous identifier !</p>';
                         }
 
                         if(!isset($_SESSION['panier'])){//vérifie que la variable existe
