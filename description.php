@@ -47,7 +47,7 @@
 
                     if (isset($_SESSION["prenom"]))//vérifie la variable 
                         {
-                            if ($_SESSION['nb_livresempruntes']) <= $nb_livresmax)
+                            if ($_SESSION['nb_livresempruntes'] < $nb_livresmax)
                                 {
                                     echo '<form method="POST">';
                                     echo '<input type="submit" name="btn-ajoutpanier" class="btn btn-success btn-lg" value="Ajouter au panier"></input>';
