@@ -1,3 +1,10 @@
 html, body {
     background-color: rgb(134, 190, 146);
 }
+
+#div_color {
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgb(230, 180, 115);
+
+}

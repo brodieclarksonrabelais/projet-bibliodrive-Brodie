@@ -34,12 +34,17 @@
                     echo '<div class="col-md-3".>';
                     echo "<img src= 'covers/". $enregistrement->photo ."'class='d-block w-100' alt='livre' style='width=60%'>";
                     echo'</div>';
-                    echo '<div class="col-md-4".>';
+                    echo '<div id="div_color" class="col-md-4".>';
                     echo '<p>Auteur :', $enregistrement->prenom, ' ', $enregistrement->nom, ' ','</p>';
                     echo '<p>ISBN13 :', $enregistrement->isbn13,' ','</p>';
                     echo  '<p>Résumé de : ', $enregistrement->titre,' ','<br/>', $enregistrement->detail,' ','</p>';
                     echo '<p>Date de parution :', $enregistrement->anneeparution,' ','</p>';
                     echo'</div>';
+
+                    if(!isset($_SESSION['panier'])){//vérifie que la variable existe
+
+                    $_SESSION['panier'] = array(); //stocke plusieurs valeurs dans une seule variable
+                    }
                     
                     $nb_livresmax = 5;
                     $nb_livresempruntes = count($_SESSION['panier']); 
@@ -57,11 +62,6 @@
                                 }
                         }else{
                             echo '<p class="text-primary">Pour pouvoir réserver ce livre vous devez posséder un compte et vous identifier !</p>';
-                        }
-
-                        if(!isset($_SESSION['panier'])){//vérifie que la variable existe
-
-                        $_SESSION['panier'] = array(); //stocke plusieurs valeurs dans une seule variable
                         }
 
                         // On ajoute les entrées dans le tableau

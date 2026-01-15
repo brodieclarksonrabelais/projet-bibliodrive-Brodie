@@ -9,7 +9,7 @@
     if (!isset($_SESSION["mel"])) { 
       if (!isset($_POST['btnconnexion'])) { 
         echo '
-      <form action="" method="post">
+      <form id="div_color" action="" method="post">
         <div class="mb-3 mt-3">
           <h2>Se connecter</h2>
           <label for="identifiant">Identifiant:</label>
