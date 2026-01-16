@@ -62,11 +62,11 @@
         echo $_SESSION["adresse"]. ' ' . $_SESSION["codepostal"] .'<br/>'; 
       
         if (!isset($_POST['deco'])) { 
-          echo '<form method="post">
-          <div class="input-group-btn text-center">
-              <button class="btn btn-danger" name="deco" type="submit">Déconnexion</button>
-          </div>
-      </form>';
+          echo '<form id="div_color" method="post">
+                    <div class="input-group-btn text-center">
+                        <button class="btn btn-danger" name="deco" type="submit">Déconnexion</button>
+                    </div>
+                </form>';
         } else {
           session_unset();         
           session_destroy();

@@ -33,7 +33,6 @@
                     
                     // Affichage du panier 
                     $nb_livresempruntes = count($_SESSION['panier']); 
-                    $_SESSION['nb_livresempruntes'] = $nb_livresempruntes;
                     $nb_emprunts = (5 - $nb_livresempruntes);
                     echo '<h5 class="couleur1" id="reste">(Il vous reste ', $nb_emprunts ,' réservations possibles.)</h5>';
                     
