@@ -56,13 +56,13 @@
         }      
       }
     } else {
-      
+        echo'<div id="div_color">';
         echo $_SESSION["prenom"] . ' ' . $_SESSION["nom"]. '<br/>';
         echo $_SESSION["mel"] .'<br/>'; 
-        echo $_SESSION["adresse"]. ' ' . $_SESSION["codepostal"] .'<br/>'; 
+        echo $_SESSION["adresse"]. ' ' . $_SESSION["codepostal"] .'<br/></div>'; 
       
         if (!isset($_POST['deco'])) { 
-          echo '<form id="div_color" method="post">
+          echo '<form method="post">
                     <div class="input-group-btn text-center">
                         <button class="btn btn-danger" name="deco" type="submit">Déconnexion</button>
                     </div>
